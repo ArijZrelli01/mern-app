@@ -3,15 +3,15 @@ pipeline {
     triggers { pollSCM('H/5 * * * *') }
 
     environment {
-        IMAGE_SERVER = 'maram02025/mern-server'  // ← Remplacez par votre username Docker Hub
-        IMAGE_CLIENT = 'maram02025/mern-client'  // ← Remplacez par votre username Docker Hub
+        IMAGE_SERVER = 'arijzrelli/mern-server'
+        IMAGE_CLIENT = 'arijzrelli/mern-client'
     }
 
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                url: 'git@github.com:maram-abd/mern-apps.git',
+                url: 'https://github.com/ArijZrelli01/mern-app.git',
                 credentialsId: 'github_ssh'
             }
         }
@@ -55,7 +55,7 @@ pipeline {
              steps {
               sh '''
              docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \\
-             aquasec/trivy image maram02025/mern-server:${BUILD_NUMBER} > trivy_report.txt
+             aquasec/trivy image arijzrelli/mern-server:${BUILD_NUMBER} > trivy_report.txt
              echo "=== RAPPORT TRIVY COMPLET ==="
             cat trivy_report.txt
             '''
